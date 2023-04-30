@@ -60,3 +60,4 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
 # Cleanup
 cv2.destroyAllWindows()
+
