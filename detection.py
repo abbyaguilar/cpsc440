@@ -14,7 +14,7 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
 # Load the face detection classifier
-face_cascade = cv2.CascadeClassifier('/usr/share/opencv4/haarcascades/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('/path/to/haarcascade_frontalface_default.xml')
 
 # Define the colors for the dots
 color = (0, 255, 0) # Green
@@ -25,11 +25,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # Grab the raw NumPy array representing the image
     image = frame.array
 
+    # Increase the size of the image
+    image = cv2.resize(image, (800, 600))
+
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Detect faces in the image
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5)
 
     # Draw dots on the faces
     for (x, y, w, h) in faces:
