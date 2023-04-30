@@ -14,7 +14,7 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
 # Load the face detection classifier
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('/path/to/haarcascade_frontalface_default.xml')
 
 # Define the colors for the dots
 color = (0, 255, 0) # Green
