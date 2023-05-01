@@ -4,7 +4,7 @@ import random
 # Create a list to store image filenames
 image_files = []
 
-path = "/Users/abigailaguilar/Desktop/cpsc440"
+path = "/Users/abigailaguilar/cpsc440"
 
 # Loop through all files in the directory
 for filename in os.listdir(path):
