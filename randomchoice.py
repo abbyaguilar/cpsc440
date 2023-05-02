@@ -2,7 +2,7 @@ import os
 import random
 import cv2
 
-folder_path = "/home/abbys/cpsc440/cpsc440"
+folder_path = "/home/abbys/smartmirror/cpsc440"
 file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
 
 if len(file_list) > 0:
