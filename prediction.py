@@ -25,7 +25,7 @@ font_scale = 1
 thickness = 2
 
 # Define the folder path for the images
-folder_path = "/home/abbys/face-prediction/cpsc440"
+folder_path = "/home/abbys/facefuture/cpsc440"
 
 # Capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
