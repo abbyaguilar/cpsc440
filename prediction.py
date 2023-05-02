@@ -25,7 +25,10 @@ font_scale = 1
 thickness = 2
 
 # Define the folder path for the images
-folder_path = "/home/abbys/mirror/cpsc440"
+folder_path = "/home/abbys/cpsc440/cpsc440"
+
+# Flag to control displaying the image
+show_image = False
 
 # Capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -55,16 +58,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.circle(image, dot4, 2, color, -1)
         cv2.circle(image, dot5, 2, color, -1)
 
-    # Display the resulting image
-    cv2.imshow("Faces", image)
-    key = cv2.waitKey(1) & 0xFF
+        # If there is a face detected, set the flag to display the image
+        show_image = True
 
-    # If the 'q' key was pressed, break from the loop
-    if key == ord("q"):
-        break
-
-    # If the 's' key was pressed, display a random image from the folder path
-    if key == ord("s"):
+    # If the flag is set, display the image
+    if show_image:
         # Choose a random image file from the folder
         file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
         if len(file_list) > 0:
@@ -73,9 +71,17 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             # Load the image using OpenCV
             random_image = cv2.imread(file_path)
 
-            # Resize the image to one half its size
-            height, width = random_image.shape[:2]
-            resized_image = cv2.resize(random_image, (width // 2, height // 2))
+            # Resize the image to half its size
+            resized_image = cv2.resize(random_image, (0, 0), fx=0.5, fy=0.5)
 
             # Display the resized image
-            cv2.imshow("Random Image
+            cv2.imshow("Random Image", resized_image)
+
+        else:
+            print("No .png files found in the specified folder path.")
+
+        # Reset the flag to not display the image again until another face is detected
+        show_image = False
+
+    # Display the resulting image
+    cv2.imshow("Faces", image)
