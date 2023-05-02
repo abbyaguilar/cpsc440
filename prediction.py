@@ -22,7 +22,7 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 color = (0, 255, 0) # Green
 
 # Set the path to the folder containing the images
-image_folder = 'home/abbys/cpsc440/cpsc440'
+image_folder = 'home/abbys/440/cpsc440'
 
 # Get a list of all the image files in the folder
 image_files = [os.path.join(image_folder, f) for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f)) and f.endswith('.png')]
