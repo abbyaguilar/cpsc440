@@ -2,7 +2,7 @@ import os
 import random
 import cv2
 
-folder_path = "/home/abbys/smartmirror/cpsc440"
+folder_path = "/home/abbys/cpsc440/cpsc440"
 file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
 
 if len(file_list) > 0:
@@ -12,9 +12,9 @@ if len(file_list) > 0:
     # Load the image using OpenCV
     image = cv2.imread(file_path)
 
-    # Resize the image to half its size
+    # Resize the image to one quarter its size
     height, width = image.shape[:2]
-    resized_image = cv2.resize(image, (width // 2, height // 2))
+    resized_image = cv2.resize(image, (width // 4, height // 4))
 
     # Display the resized image
     cv2.imshow("Random Image", resized_image)
