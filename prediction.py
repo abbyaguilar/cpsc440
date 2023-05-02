@@ -25,14 +25,10 @@ font_scale = 1
 thickness = 2
 
 # Define the folder path for the images
-folder_path = "/home/abbys/cpsc440/cpsc440"
-
-# Flag to control displaying the image
-show_image = False
+folder_path = "/home/pi/Pictures"
 
 # Capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-
     # Grab the raw NumPy array representing the image
     image = frame.array
 
@@ -58,13 +54,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.circle(image, dot4, 2, color, -1)
         cv2.circle(image, dot5, 2, color, -1)
 
-        # If there is a face detected, set the flag to display the image
-        show_image = True
+    # Display the resulting image
+    cv2.imshow("Faces", image)
 
-    # If the flag is set, display the image
-    if show_image:
-        # Choose a random image file from the folder
-        file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
+    # If a face is detected, choose a random image file from the folder and display it
+    if len(faces) > 0:
+        file_list = [f for f in os.listdir(folder_path) if f.endswith(".jpg")]
         if len(file_list) > 0:
             file_path = os.path.join(folder_path, random.choice(file_list))
 
@@ -72,16 +67,19 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             random_image = cv2.imread(file_path)
 
             # Resize the image to half its size
-            resized_image = cv2.resize(random_image, (0, 0), fx=0.5, fy=0.5)
+            height, width = random_image.shape[:2]
+            resized_image = cv2.resize(random_image, (width // 2, height // 2))
 
             # Display the resized image
             cv2.imshow("Random Image", resized_image)
 
         else:
-            print("No .png files found in the specified folder path.")
+            print("No .jpg files found in the specified folder path.")
 
-        # Reset the flag to not display the image again until another face is detected
-        show_image = False
+    # Wait for a key press
+    key = cv2.waitKey(1) & 0xFF
 
-    # Display the resulting image
-    cv2.imshow("Faces", image)
+    # Clear the stream for the next frame
+    rawCapture.truncate(0)
+
+    
