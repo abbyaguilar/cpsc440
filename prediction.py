@@ -29,6 +29,7 @@ folder_path = "/home/abbys/facefuture/cpsc440"
 
 # Capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+
     # Grab the raw NumPy array representing the image
     image = frame.array
 
@@ -57,29 +58,28 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # Display the resulting image
     cv2.imshow("Faces", image)
 
-    # If a face is detected, choose a random image file from the folder and display it
-    if len(faces) > 0:
-        file_list = [f for f in os.listdir(folder_path) if f.endswith(".jpg")]
-        if len(file_list) > 0:
-            file_path = os.path.join(folder_path, random.choice(file_list))
+    # Choose a random image file from the folder
+    file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
+    if len(file_list) > 0:
+        file_path = os.path.join(folder_path, random.choice(file_list))
 
-            # Load the image using OpenCV
-            random_image = cv2.imread(file_path)
+        # Load the image using OpenCV
+        random_image = cv2.imread(file_path)
 
-            # Resize the image to half its size
-            height, width = random_image.shape[:2]
-            resized_image = cv2.resize(random_image, (width // 2, height // 2))
+        # Resize the image to one eighth its size
+        height, width = random_image.shape[:2]
+        resized_image = cv2.resize(random_image, (width // 2, height // 2))
 
-            # Display the resized image
-            cv2.imshow("Random Image", resized_image)
+        # Display the resized image
+        cv2.imshow("Random Image", resized_image)
 
-        else:
-            print("No .jpg files found in the specified folder path.")
+    else:
+        print("No .png files found in the specified folder path.")
 
-    # Wait for a key press
     key = cv2.waitKey(1) & 0xFF
 
     # Clear the stream for the next frame
     rawCapture.truncate(0)
 
-    
+    # If the 'q' key was pressed, break from the loop
+    if key == ord("q
