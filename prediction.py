@@ -1,10 +1,10 @@
+import os
+import random
 import cv2
 import numpy as np
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
-import os
-import random
 
 # Initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
@@ -18,14 +18,14 @@ time.sleep(0.1)
 # Load the face detection classifier
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
-# Define the colors for the dots
+# Define the colors for the dots and text
 color = (0, 255, 0) # Green
+font = cv2.FONT_HERSHEY_SIMPLEX
+font_scale = 1
+thickness = 2
 
-# Set the path to the folder containing the images
-image_folder = 'home/abbys/440/cpsc440'
-
-# Get a list of all the image files in the folder
-image_files = [os.path.join(image_folder, f) for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f)) and f.endswith('.png')]
+# Define the folder path for the images
+folder_path = "/home/abbys/mirror/cpsc440"
 
 # Capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -55,24 +55,27 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.circle(image, dot4, 2, color, -1)
         cv2.circle(image, dot5, 2, color, -1)
 
-        # Display a random image from the folder
-        img_path = random.choice(image_files)
-        img = cv2.imread(img_path)
-        img = cv2.resize(img, (400, 300))
-        cv2.imshow("Random Image", img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
     # Display the resulting image
     cv2.imshow("Faces", image)
     key = cv2.waitKey(1) & 0xFF
-
-    # Clear the stream for the next frame
-    rawCapture.truncate(0)
 
     # If the 'q' key was pressed, break from the loop
     if key == ord("q"):
         break
 
-# Cleanup
-cv2.destroyAllWindows()
+    # If the 's' key was pressed, display a random image from the folder path
+    if key == ord("s"):
+        # Choose a random image file from the folder
+        file_list = [f for f in os.listdir(folder_path) if f.endswith(".png")]
+        if len(file_list) > 0:
+            file_path = os.path.join(folder_path, random.choice(file_list))
+
+            # Load the image using OpenCV
+            random_image = cv2.imread(file_path)
+
+            # Resize the image to one half its size
+            height, width = random_image.shape[:2]
+            resized_image = cv2.resize(random_image, (width // 2, height // 2))
+
+            # Display the resized image
+            cv2.imshow("Random Image
